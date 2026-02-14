@@ -24,23 +24,36 @@ body {
   top: 80px;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 手札タイトル */
+#hand-label {
+  position: absolute;
+  bottom: 160px;
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 /* 手札エリア */
 #hand {
   position: absolute;
-  bottom: 20px;
+  bottom: 30px;
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 /* カード */
 .card {
   width: 100px;
   touch-action: none;
-  transition: transform 0.2s;
+  transition: transform 0.2s, opacity 0.3s;
 }
 
 .card img {
@@ -51,6 +64,12 @@ body {
 
 .card:hover {
   transform: translateY(-10px);
+}
+
+/* ロック状態 */
+.locked {
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 /* メッセージ */
@@ -70,18 +89,19 @@ body {
 
 <div id="message">召喚成功！</div>
 
-<div id="field"></div>
+<div id="field">FIELD</div>
+
+<div id="hand-label">手札</div>
 
 <div id="hand">
-  <div class="card"><img src="card.jpg"></div>
-  <div class="card"><img src="card.jpg"></div>
-  <div class="card"><img src="card.jpg"></div>
-  <div class="card"><img src="card.jpg"></div>
-  <div class="card"><img src="card.jpg"></div>
+  <div class="card"><img src="card1.jpg"></div>
+  <div class="card"><img src="card2.jpg"></div>
+  <div class="card"><img src="card3.jpg"></div>
+  <div class="card"><img src="card4.jpg"></div>
+  <div class="card"><img src="card5.jpg"></div>
 </div>
 
 <script src="main.js"></script>
 
 </body>
 </html>
-
