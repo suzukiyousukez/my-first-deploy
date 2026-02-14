@@ -11,15 +11,18 @@
     background: #111;
   }
   #box {
-    width: 80px;
-    height: 80px;
-    background: lime;
-    position: absolute;
-    left: 100px;
-    top: 100px;
-    border-radius: 10px;
-    touch-action: none;
-  }
+  position: absolute;
+  left: 100px;
+  top: 100px;
+  touch-action: none;
+}
+
+#box img {
+  width: 120px;   /* カードサイズ */
+  height: auto;
+  display: block;
+  pointer-events: none; /* 重要 */
+}
 </style>
 </head>
 <body>
@@ -30,6 +33,7 @@
 
 </body>
 </html>
+
 
 
 
