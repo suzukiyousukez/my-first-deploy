@@ -5,10 +5,13 @@ const message = document.getElementById("message");
 let currentCard = null;
 let offsetX = 0;
 let offsetY = 0;
+let summoned = false;
 
 cards.forEach(card => {
 
   card.addEventListener("pointerdown", (e) => {
+    if (summoned) return;
+
     currentCard = card;
 
     card.style.position = "absolute";
@@ -21,14 +24,14 @@ cards.forEach(card => {
   });
 
   card.addEventListener("pointermove", (e) => {
-    if (!currentCard) return;
+    if (!currentCard || summoned) return;
 
     card.style.left = (e.clientX - offsetX) + "px";
     card.style.top = (e.clientY - offsetY) + "px";
   });
 
   card.addEventListener("pointerup", (e) => {
-    if (!currentCard) return;
+    if (!currentCard || summoned) return;
 
     card.releasePointerCapture(e.pointerId);
 
@@ -51,7 +54,16 @@ function checkSummon(card) {
     cardRect.bottom > fieldRect.top;
 
   if (isInside) {
+    summoned = true;
+
     message.style.display = "block";
     field.style.borderColor = "#22c55e";
+
+    // 他カードロック
+    cards.forEach(c => {
+      if (c !== card) {
+        c.classList.add("locked");
+      }
+    });
   }
 }
