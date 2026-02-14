@@ -52,6 +52,10 @@ function create() {
     fontSize: "20px",
     fill: "#ffffff"
   });
+
+  this.input.on("pointerdown", function () {
+  debugText.setText("touch event fired");
+});
 }
 
 function update() {
