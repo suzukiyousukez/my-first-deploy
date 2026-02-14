@@ -30,6 +30,11 @@ let debugText;
 function preload() {}
 
 function create() {
+
+  this.input.addPointer(3);
+this.input.mouse.enabled = true;
+this.input.touch.enabled = true;
+  
   // 四角テクスチャ作成
   const graphics = this.add.graphics();
   graphics.fillStyle(0x00ff00, 1);
