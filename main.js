@@ -1,50 +1,57 @@
-const box = document.getElementById("box");
-const target = document.getElementById("target");
+const cards = document.querySelectorAll(".card");
+const field = document.getElementById("field");
 const message = document.getElementById("message");
 
-let isDragging = false;
+let currentCard = null;
 let offsetX = 0;
 let offsetY = 0;
-let locked = false;
 
-box.addEventListener("pointerdown", (e) => {
-  if (locked) return;
+cards.forEach(card => {
 
-  isDragging = true;
-  offsetX = e.clientX - box.offsetLeft;
-  offsetY = e.clientY - box.offsetTop;
-  box.setPointerCapture(e.pointerId);
+  card.addEventListener("pointerdown", (e) => {
+    currentCard = card;
+
+    card.style.position = "absolute";
+    card.style.zIndex = 1000;
+
+    offsetX = e.clientX - card.offsetLeft;
+    offsetY = e.clientY - card.offsetTop;
+
+    card.setPointerCapture(e.pointerId);
+  });
+
+  card.addEventListener("pointermove", (e) => {
+    if (!currentCard) return;
+
+    card.style.left = (e.clientX - offsetX) + "px";
+    card.style.top = (e.clientY - offsetY) + "px";
+  });
+
+  card.addEventListener("pointerup", (e) => {
+    if (!currentCard) return;
+
+    card.releasePointerCapture(e.pointerId);
+
+    checkSummon(card);
+
+    currentCard = null;
+  });
+
 });
 
-box.addEventListener("pointermove", (e) => {
-  if (!isDragging || locked) return;
+function checkSummon(card) {
 
-  box.style.left = (e.clientX - offsetX) + "px";
-  box.style.top = (e.clientY - offsetY) + "px";
-});
-
-box.addEventListener("pointerup", (e) => {
-  if (locked) return;
-
-  isDragging = false;
-  box.releasePointerCapture(e.pointerId);
-
-  checkDrop();
-});
-
-function checkDrop() {
-  const boxRect = box.getBoundingClientRect();
-  const targetRect = target.getBoundingClientRect();
+  const cardRect = card.getBoundingClientRect();
+  const fieldRect = field.getBoundingClientRect();
 
   const isInside =
-    boxRect.left < targetRect.right &&
-    boxRect.right > targetRect.left &&
-    boxRect.top < targetRect.bottom &&
-    boxRect.bottom > targetRect.top;
+    cardRect.left < fieldRect.right &&
+    cardRect.right > fieldRect.left &&
+    cardRect.top < fieldRect.bottom &&
+    cardRect.bottom > fieldRect.top;
 
   if (isInside) {
-    locked = true;
     message.style.display = "block";
-    target.style.borderColor = "#22c55e";
+    field.style.borderColor = "#22c55e";
   }
 }
