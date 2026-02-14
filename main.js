@@ -30,38 +30,32 @@ let debugText;
 function preload() {}
 
 function create() {
-
+  // 入力を明示的に有効化
   this.input.addPointer(3);
-this.input.mouse.enabled = true;
-this.input.touch.enabled = true;
-  
-  // 四角テクスチャ作成
+  this.input.mouse.enabled = true;
+  this.input.touch.enabled = true;
+
   const graphics = this.add.graphics();
   graphics.fillStyle(0x00ff00, 1);
   graphics.fillRect(0, 0, 50, 50);
   graphics.generateTexture("player", 50, 50);
   graphics.destroy();
 
-  // プレイヤー
   player = this.physics.add.sprite(400, 300, "player");
   player.setCollideWorldBounds(true);
 
-  // キーボード
   cursors = this.input.keyboard.createCursorKeys();
 
-  // ポインタ（マウス・タッチ共通）
-  pointer = this.input.activePointer;
-
-  // デバッグ表示
   debugText = this.add.text(10, 10, "no touch", {
     fontSize: "20px",
     fill: "#ffffff"
   });
 
-  this.input.on("pointerdown", function () {
-  debugText.setText("touch event fired");
-});
+  this.input.on("pointerdown", () => {
+    debugText.setText("touch event fired");
+  });
 }
+
 
 function update() {
   const speed = 200;
