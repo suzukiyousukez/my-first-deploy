@@ -5,14 +5,16 @@ const config = {
   backgroundColor: "#2d2d2d",
   physics: {
     default: "arcade",
-    arcade: {
-      debug: false
-    }
+    arcade: { debug: false }
+  },
+  scale: {
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_BOTH
   },
   scene: {
-    preload: preload,
-    create: create,
-    update: update
+    preload,
+    create,
+    update
   }
 };
 
@@ -20,6 +22,7 @@ const game = new Phaser.Game(config);
 
 let player;
 let cursors;
+let pointer;
 
 function preload() {}
 
@@ -34,21 +37,33 @@ function create() {
   player.setCollideWorldBounds(true);
 
   cursors = this.input.keyboard.createCursorKeys();
+
+  pointer = this.input.activePointer;
 }
 
 function update() {
   const speed = 200;
   player.setVelocity(0);
 
-  if (cursors.left.isDown) {
-    player.setVelocityX(-speed);
-  } else if (cursors.right.isDown) {
-    player.setVelocityX(speed);
-  }
+  // キーボード操作
+  if (cursors.left.isDown) player.setVelocityX(-speed);
+  else if (cursors.right.isDown) player.setVelocityX(speed);
 
-  if (cursors.up.isDown) {
-    player.setVelocityY(-speed);
-  } else if (cursors.down.isDown) {
-    player.setVelocityY(speed);
+  if (cursors.up.isDown) player.setVelocityY(-speed);
+  else if (cursors.down.isDown) player.setVelocityY(speed);
+
+  // タッチ操作
+  if (pointer.isDown) {
+    const angle = Phaser.Math.Angle.Between(
+      player.x,
+      player.y,
+      pointer.worldX,
+      pointer.worldY
+    );
+
+    player.setVelocity(
+      Math.cos(angle) * speed,
+      Math.sin(angle) * speed
+    );
   }
 }
